@@ -1,4 +1,4 @@
-![Geometric](/assets/geometric_logo_clear_background.png){: width="150" }
+<img src="/assets/geometric_logo_clear_background.png" alt="Geometric" width="150" style="float: right; margin-left: 10px;">
 
 Evolutionary algorithms for optimised CUDA kernels.
 
