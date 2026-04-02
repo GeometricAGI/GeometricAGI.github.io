@@ -1,4 +1,4 @@
-![Geometric](/assets/geometric_logo.jpeg){: width="150" }
+![Geometric](/assets/geometric_logo_clear_background.png){: width="150" }
 
 # Geometric
 
