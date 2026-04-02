@@ -23,7 +23,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/diff.min.js"></script>
   <script>
-    hljs.configure({ cssSelector: 'code[class*="language-"]' });
+    // Rename language-* classes to hljs-compatible format
+    document.querySelectorAll('code[class*="language-"]').forEach(function(el) {
+      el.className.split(' ').forEach(function(cls) {
+        if (cls.startsWith('language-')) {
+          el.classList.add(cls.replace('language-', ''));
+        }
+      });
+    });
     hljs.highlightAll();
   </script>
 </body>
