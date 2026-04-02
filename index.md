@@ -1,6 +1,4 @@
-![Geometric](/assets/geometric_logo_clear_background.png){: width="150" }
-
-# Geometric
+# Geometric ![Geometric](/assets/geometric_logo_clear_background.png){: width="150" style="vertical-align: middle; margin-left: 10px;" }
 
 Evolutionary algorithms for optimised CUDA kernels.
 
