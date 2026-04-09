@@ -205,7 +205,7 @@ Evolutionary algorithms are not random search, and they have provable convergenc
 
 ---
 
-*All code to generate the animations and figures in this post is in [`animations/`](https://github.com/GeometricAGI/blog/tree/main/evolution-diversity/animations). The benchmark data are available at [github.com/GeometricAGI/blog](https://github.com/GeometricAGI/blog).*
+*All code to generate the animations and figures in this post is available at [github.com/GeometricAGI/blog](https://github.com/GeometricAGI/blog/tree/main/evolution-diversity).*
 
 ## References
 
