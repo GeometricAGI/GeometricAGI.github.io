@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Diversity Is All You Need (To Converge): Why Evolutionary Algorithms Need Diversity Management"
-date: 2026-04-07
+date: 2026-04-09
 author:
   name: Jack Foxabbott
   title: Founding Member of Technical Staff
@@ -118,7 +118,7 @@ The conditions are mild (elitism is a one-line code change, and Gaussian mutatio
 
 Selection pressure can be made precise, and the classic measure is **takeover time**: the expected number of selection iterations needed until the population consists entirely of copies of the initially-best individual (assuming it can't go extinct).
 
-[Rudolph (2000)](https://dl.acm.org/doi/10.5555/2933718.2933888) proved closed-form expressions for tournament selection with population size $n$. Recall that a tournament of size $k$ picks $k$ individuals at random and keeps the fittest; a binary tournament has $k = 2$, a ternary tournament has $k = 3$. In the "non-generational" variant, one individual is replaced at a time rather than rebuilding the whole population each generation. Under this scheme:
+[Rudolph (2000)](https://dblp.org/rec/conf/gecco/Rudolph00) proved closed-form expressions for tournament selection with population size $n$. Recall that a tournament of size $k$ picks $k$ individuals at random and keeps the fittest; a binary tournament has $k = 2$, a ternary tournament has $k = 3$. In the "non-generational" variant, one individual is replaced at a time rather than rebuilding the whole population each generation. Under this scheme:
 
 - Binary tournament ($k = 2$): $E[T] = n H_{n-1}$
 - Ternary tournament ($k = 3$): $E[T] = \tfrac{2}{3}\, n H_{n-1}$
@@ -205,7 +205,7 @@ Evolutionary algorithms are not random search, and they have provable convergenc
 
 ---
 
-*All code to generate the animations and figures in this post is in [`animations/`](animations/). The benchmark data are available at [github.com/GeometricAGI/blog](https://github.com/GeometricAGI/blog).*
+*All code to generate the animations and figures in this post is in [`animations/`](https://github.com/GeometricAGI/blog/tree/main/evolution-diversity/animations). The benchmark data are available at [github.com/GeometricAGI/blog](https://github.com/GeometricAGI/blog).*
 
 ## References
 
