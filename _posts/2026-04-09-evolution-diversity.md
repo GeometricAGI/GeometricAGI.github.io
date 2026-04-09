@@ -12,9 +12,9 @@ author:
 
 # Diversity Is All You Need (To Converge): Why Evolutionary Algorithms Need Diversity Management
 
-Evolutionary algorithms are simple: maintain a population, evaluate fitness, keep the best, mutate to create offspring, and repeat.
+Evolutionary algorithms are simple: maintain a population, evaluate fitness, keep the best, mutate to create offspring, and repeat. But they routinely fail in practice, and the reason is almost always the same: **the population's diversity wasn't managed properly**.
 
-The hard part is **controlling how diverse the population stays as the algorithm runs**. Selection wants to collapse the population into a monoculture. Mutation wants to smear it back out. If you don't manage that tension you either collapse into a local optimum and sit there, or keep "exploring" forever and never cash it in.
+Selection wants to collapse the population into a monoculture. Mutation wants to smear it back out. If you don't manage that tension you either collapse into a local optimum and sit there, or keep "exploring" forever and never cash it in. Getting it right is the difference between polynomial and exponential runtime.
 
 We'll build intuition on a multimodal landscape (Rastrigin), then anchor that intuition in **five theoretical results** about convergence speed and how it depends on the exploration/exploitation balance. These results are mostly proved on stylised toy landscapes (bit strings, synthetic traps), because that's where the maths is sharp enough to separate polynomial-time from exponential-time behaviour. The proofs pin down exactly when "keep the best and mutate" is fast, slow, or outright doomed. The toy settings are deliberately simple, but the failure modes they expose (premature convergence from too much selection, random-walk behaviour from too much mutation) are the same ones that show up on real problems.
 
