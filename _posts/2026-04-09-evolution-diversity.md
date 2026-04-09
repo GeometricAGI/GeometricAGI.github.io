@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Diversity Is All You Need (To Converge)"
+title: "Diversity Is All You Need (To Converge): Why Evolutionary Algorithms Need Diversity Management"
 date: 2026-04-07
 author:
   name: Jack Foxabbott
@@ -10,7 +10,7 @@ author:
 
 *By [Jack Foxabbott](https://www.linkedin.com/in/foxabbott/), Founding Member of Technical Staff*
 
-# Diversity Is All You Need (To Converge)
+# Diversity Is All You Need (To Converge): Why Evolutionary Algorithms Need Diversity Management
 
 Evolutionary algorithms are simple: maintain a population, evaluate fitness, keep the best, mutate to create offspring, and repeat.
 
@@ -32,7 +32,7 @@ $$
 
 The global minimum is at $(0,0)$ with $f(0,0) = 0$. Any greedy, hill-climbing algorithm gets stuck, which makes it a good test of whether an optimiser actually explores.
 
-![The Rastrigin function in two dimensions](figures/rastrigin_surface.png)
+![The Rastrigin function in two dimensions](/assets/evolution-diversity/rastrigin_surface.png)
 
 ## The EA
 
@@ -46,7 +46,7 @@ Many EAs also use **crossover** (also called recombination): pick two parents an
 
 Tournament selection with size 10 (very aggressive, almost always picks the single best individual). Gaussian mutations with $\sigma = 0.15$.
 
-![Low diversity, stuck in local optimum](figures/diversity_low.gif)
+![Low diversity, stuck in local optimum](/assets/evolution-diversity/diversity_low.gif)
 
 The population collapses in a handful of generations. You get "fast convergence"... to the wrong thing. The mutation steps are too small to hop the ridges between basins. What looks like decisive progress is selection doing what it always does: removing variety.
 
@@ -54,7 +54,7 @@ The population collapses in a handful of generations. You get "fast convergence"
 
 Tournament selection with size 2 (almost random). Gaussian mutations with $\sigma = 3.5$.
 
-![High diversity, no convergence](figures/diversity_high.gif)
+![High diversity, no convergence](/assets/evolution-diversity/diversity_high.gif)
 
 This is the opposite failure mode: diversity is maximal, but unstructured, and each generation is basically a fresh random sample. Selection isn't strong enough to amplify improvements into a stable lineage, so the algorithm can't compound its gains.
 
@@ -62,7 +62,7 @@ This is the opposite failure mode: diversity is maximal, but unstructured, and e
 
 Tournament selection with size 5. Adaptive Gaussian mutations that start large and decay: $\sigma(t) = 1.2 \cdot (1 - 0.8\, t/T)$.
 
-![Balanced diversity, finds global optimum](figures/diversity_balanced.gif)
+![Balanced diversity, finds global optimum](/assets/evolution-diversity/diversity_balanced.gif)
 
 Early on, large mutations spread the population across the landscape, and as the algorithm progresses they shrink, focusing the population on the best basin until the global optimum is found.
 
@@ -72,13 +72,13 @@ Selection *exploits* by copying what works, while mutation *explores* by trying 
 
 These three runs are points in a larger space. The plot below sweeps across selection pressure (tournament size) and mutation strength ($\sigma$), running the same EA for each combination and recording the best fitness found. Bright cells reached the global optimum; dark cells got stuck. There's a narrow diagonal of good settings; too aggressive on either axis and the algorithm fails in opposite ways.
 
-![Phase diagram: selection pressure vs mutation strength](figures/phase_diagram.png)
+![Phase diagram: selection pressure vs mutation strength](/assets/evolution-diversity/phase_diagram.png)
 
 ## Seeing it in the numbers
 
 The time-series below plot best fitness and population diversity (average pairwise distance) over generations for all three regimes.
 
-![Time series: best fitness and diversity for all three regimes](figures/time_series.png)
+![Time series: best fitness and diversity for all three regimes](/assets/evolution-diversity/time_series.png)
 
 In the low-diversity run, diversity crashes immediately and fitness flatlines at a local optimum. In the high-diversity run, diversity stays high but fitness never improves because there's no exploitation. In the balanced run, diversity starts high and decays smoothly while fitness steadily drops toward zero. That smooth handoff from exploration to exploitation is what makes the balanced run work.
 
@@ -98,17 +98,19 @@ A good diversity strategy doesn't maximise diversity. It makes sure the escape c
 
 ## Five theoretical results about convergence speed
 
-Below are five results that make the intuition above precise. Most are proved for bit-string EAs, because that's where you can cleanly separate polynomial from exponential runtime.
+The Rastrigin experiments and the two-clocks framing give intuition, but they don't tell us *why* one setting works and another doesn't, or how to predict what will happen on a new problem. For that we need theory.
+
+The results below come from a branch of research called **runtime analysis**, which studies evolutionary algorithms the way complexity theory studies classical algorithms: by proving bounds on how many fitness evaluations an EA needs to find the optimum, as a function of problem size. The key question is whether that number is **polynomial** (feasible, scales reasonably) or **superpolynomial/exponential** (infeasible, blows up). Most of these results are proved for EAs operating on bit strings, because that's a setting where the maths is tractable enough to get clean answers.
 
 ### 1. Elitism gives convergence, but not speed
 
-[Rudolph (1994)](https://doi.org/10.1109/72.265964) used Markov chain analysis to prove two things about canonical genetic algorithms.
+The most fundamental question is: does the algorithm even converge to the global optimum? [Rudolph (1994)](https://doi.org/10.1109/72.265964) used Markov chain analysis to prove two things about canonical genetic algorithms.
 
 First, a negative result: without elitism, the standard GA **never** converges to the global optimum, regardless of initialisation, crossover operator, or objective function. The population's state space is ergodic: it visits optimal states infinitely often but leaves them infinitely often. There are no absorbing states.
 
 Second, a positive result: adding **elitism** (always preserving the best solution found so far) makes the set of populations containing a global optimum into an absorbing set. Combined with ergodicity of the mutation operator (any solution is reachable from any starting point with nonzero probability), the algorithm converges to the global optimum almost surely.
 
-![Markov chain: without vs with elitism](figures/markov_chain.png)
+![Markov chain: without vs with elitism](/assets/evolution-diversity/markov_chain.png)
 
 The conditions are mild (elitism is a one-line code change, and Gaussian mutation is ergodic by construction), but the theorem says nothing about how long convergence takes, and it could easily be exponential. That's exactly what the Rastrigin GIFs demonstrate: elitism is on in all three runs, but only the balanced one is fast in any practical sense.
 
@@ -125,7 +127,7 @@ where $H_{n-1}$ is the $(n-1)$-th harmonic number ($H_{n-1} \approx \log n$).
 
 **Stronger tournaments shrink takeover time by a constant factor.** You get faster exploitation, and also faster loss of diversity.
 
-![Takeover curves for different tournament sizes](figures/takeover_curves.png)
+![Takeover curves for different tournament sizes](/assets/evolution-diversity/takeover_curves.png)
 
 Once takeover happens, crossover starts recombining near-clones and mutation becomes the only source of novelty. At that point you're effectively running a hillclimber with a particular step size distribution, often exactly the "too little diversity" regime from the Rastrigin experiments.
 
@@ -135,7 +137,7 @@ In standard bitwise mutation, each bit in the solution string is flipped indepen
 
 If you set $p = c/n$ so that you flip $c$ bits per step on average, the expected runtime is $\approx \frac{e^c}{c} n \ln n$. This is minimised at $c = 1$ (i.e. $p = 1/n$, flipping about one bit per step), where it evaluates to $\approx e \cdot n \ln n$. The leading constant $e^c/c$ grows rapidly as you increase $c$: at $c = 3$ it's already $\approx 6.7$ compared to $\approx 2.7$ at the optimum.
 
-![Runtime vs mutation rate: e^c/c curve](figures/mutation_phase_transition.png)
+![Runtime vs mutation rate: e^c/c curve](/assets/evolution-diversity/mutation_phase_transition.png)
 
 The result above holds when $c$ is a fixed number. But you can also ask: what if I let $c$ grow with problem size, flipping more bits on larger problems? Witt showed that as long as the expected number of flipped bits stays below $O(\ln n)$, the runtime is still polynomial in $n$. Beyond that, it becomes superpolynomial, meaning it grows faster than $n^k$ for any fixed $k$.
 
@@ -151,7 +153,7 @@ A clean example is the $\text{Jump}_k$ function, a synthetic benchmark designed 
 
 [Dang, Friedrich, Kötzing, Krejca, Lehre, Oliveto, Sudholt, and Sutton (2016)](https://doi.org/10.1145/2908812.2908956) proved that a mutation-only $(1+1)$ EA needs $\Theta(n^k)$ fitness evaluations. But a population-based GA with crossover and diversity mechanisms solves the same problem in $O(n \log n)$, which is a completely different scaling law.
 
-![Crossover with diverse vs identical parents](figures/crossover_cartoon.png)
+![Crossover with diverse vs identical parents](/assets/evolution-diversity/crossover_cartoon.png)
 
 Why does diversity matter here? Because crossover is only powerful when it recombines **different** parents. Diversity mechanisms keep multiple distinct individuals alive on the plateau, so crossover can assemble the global optimum from complementary partial structures instead of waiting for a single lucky $k$-bit mutation. If selection collapses the population so that the plateau contains only near-identical individuals, crossover degenerates into "copy the same thing twice", and you're back to waiting $\Theta(n^k)$.
 
@@ -167,7 +169,7 @@ Try a slightly bigger step and a slightly smaller step, then keep whichever prod
 
 [Doerr, Gießen, Witt, and Yang (2019)](https://doi.org/10.1007/s00453-018-0502-x) proved that a $(1+\lambda)$ EA with this self-adjusting mutation rate finds the optimum on OneMax (the simplest benchmark: maximise the number of 1-bits in a bit string) in $O(n\lambda / \log \lambda + n \log n)$ expected evaluations, asymptotically improving over the classic fixed-rate $(1+\lambda)$ EA.
 
-![Self-adjusting mutation rate on OneMax](figures/self_adjusting_onemax.png)
+![Self-adjusting mutation rate on OneMax](/assets/evolution-diversity/self_adjusting_onemax.png)
 
 In practice: when progress is possible with small perturbations, the process drifts towards smaller mutation rates (exploitation). When it gets stuck, larger rates win the offspring tournament, so the algorithm inflates its mutation rate (exploration). This is what we were doing heuristically on Rastrigin with the decaying $\sigma$ schedule, except that self-adjustment is data-driven and provably near-optimal.
 
