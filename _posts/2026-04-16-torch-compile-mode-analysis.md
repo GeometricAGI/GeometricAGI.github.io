@@ -97,11 +97,11 @@ Geometric mean speedup vs `eager`:
 
 We can see that all the `torch.compile` modes provide significant speedups over `eager` mode, but `default` and `max-autotune-no-cudagraphs` provide the best geomean speedups nearly twice as fast as `eager`, with `max-autotune-no-cudagraphs` being the best overall.
 
-![Geomean Speedup vs Eager — Prefill Workloads](../assets/torch-compile-mode-analysis/geomean_speedup_prefill.png)
+![Geomean Speedup vs Eager — Prefill Workloads](/assets/torch-compile-mode-analysis/geomean_speedup_prefill.png)
 
 Breaking down wins by domain (type of kernel) for the two strongest modes (`default` vs `max-autotune-no-cudagraphs`):
 
-![Wins by Domain — Prefill](../assets/torch-compile-mode-analysis/wins_by_domain_prefill.png)
+![Wins by Domain — Prefill](/assets/torch-compile-mode-analysis/wins_by_domain_prefill.png)
 Average win margin (`default` vs `max-autotune-no-cudagraphs`):
 
 We can observe that `max-autotune-no-cudagraphs` not only wins more workloads than `default`, but also has a higher average win margin, meaning that when it wins, it tends to outperform `default` by a larger percentage compared to how much `default` outperforms it when it wins.
@@ -127,11 +127,11 @@ Geometric mean speedup vs `eager`:
 
 For decode workloads `reduce-overhead` and `max-autotune` actually perform *worse* than `eager` (below 1.0x), while `default` and `max-autotune-no-cudagraphs` provide significant speedups and are virtually tied.
 
-![Geomean Speedup vs Eager - Decode Workloads](../assets/torch-compile-mode-analysis/geomean_speedup_decode.png)
+![Geomean Speedup vs Eager - Decode Workloads](/assets/torch-compile-mode-analysis/geomean_speedup_decode.png)
 
 Breaking down wins by domain for the two strongest modes:
 
-![Wins by Domain - Decode](../assets/torch-compile-mode-analysis/wins_by_domain_decode.png)
+![Wins by Domain - Decode](/assets/torch-compile-mode-analysis/wins_by_domain_decode.png)
 Average win margin (`default` vs `max-autotune-no-cudagraphs`):
 
 The win margins being very similar for the two dominant modes re-iterates how closely matched the two modes are on the decode workloads.
