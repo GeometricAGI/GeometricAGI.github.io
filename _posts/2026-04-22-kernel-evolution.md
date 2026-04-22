@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Evolving GPU Kernels with LLMs"
-date: 2026-04-07
+date: 2026-04-22
 author:
   name: Jack Foxabbott
   title: Founding Member of Technical Staff
