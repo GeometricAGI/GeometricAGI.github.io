@@ -1,9 +1,13 @@
 title: Geometric
 description: Evolutionary algorithms for optimised CUDA kernels
 url: https://geometricagi.github.io
+lang: en
 markdown: kramdown
 kramdown:
   math_engine: null
+
+plugins:
+  - jekyll-sitemap
 
 author:
   name: Jack Foxabbott

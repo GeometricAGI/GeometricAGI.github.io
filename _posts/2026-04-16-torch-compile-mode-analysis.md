@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Are you using the right baseline for your kernel benchmarks? An analysis of torch.compile modes"
+description: "A deep dive into torch.compile modes—default, reduce-overhead, and max-autotune—and which you should use as your baseline when benchmarking optimised GPU kernels."
 date: 2026-04-16
 author:
   name: Pramodith B

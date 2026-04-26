@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Evolving GPU Kernels with LLMs"
+description: "How evolutionary algorithms combined with large language models can automatically synthesise and optimise CUDA GPU kernels, outperforming hand-tuned baselines."
 date: 2026-04-22
 author:
   name: Jack Foxabbott
