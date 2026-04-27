@@ -437,8 +437,6 @@ Diverges at token position: 24
 
 We can see that while the output for the first prompt remains the same, the second prompt diverges at the 19th token, and the third prompt first diverges at the 5th token (the diverging subsequences are bolded). **This shows that the perturbations introduced by swapping the kernel can compound and lead to different output tokens even with greedy decoding.**
 
-![Greedy decoding token divergence between original and kernel-swapped model (bf16)](/assets/kernel-swapping/greedy_divergence_bf16.png)
-
 ---
 
 ## Part 4: Layer-by-Layer Error Accumulation
@@ -470,11 +468,7 @@ def compute_diff_matrix(
 
 ```
 
-![Hidden state drift heatmap: original vs swapped RMSNorm kernel (bf16 vs fp16)](/assets/kernel-swapping/hidden_diff_comparison.png)
-
-We see a common pattern emerging across most of the tokens: as we go deeper into the model, starting from around the 21st layer, the MSE between the hidden states starts to accumulate and grow larger. Aggregating the per-token drift into a single curve per layer makes the trend even more obvious:
-
-![Mean L2 drift per layer for bf16 and fp16](/assets/kernel-swapping/layer_drift_by_precision.png)
+We see a common pattern emerging across most of the tokens: as we go deeper into the model, starting from around the 21st layer, the MSE between the hidden states starts to accumulate and grow larger.
 
 ---
 
@@ -621,11 +615,7 @@ JS divergence(P_orig, P_swap) over 100 MMLU-Pro questions:
 
 JSD is bounded in $[0, \ln 2 \approx 0.693]$ nats. With a mean JSD of `1.07e-3`, we can conclude that **while the output distributions are very close, they are not identical.**
 
-![Per-question JSD distribution between original and swapped model on MMLU-Pro](/assets/kernel-swapping/mmlu_pro_jsd.png)
-
 Next, let's quantify how much the probability mass shifted between the original and swapped models for the answer options `A`-`J`:
-
-![Per-question mean absolute probability change across answer options](/assets/kernel-swapping/mmlu_pro_prob_change.png)
 
 We see that, on average, the probability score of any given option changed by only `0.007`, i.e., `0.7%`. However, even a small shift like this can change the argmax answer if the original probabilities were close to each other, which is what results in the 5 flipped answers we see in the next section.
 
@@ -657,8 +647,6 @@ We also see that the model **flipped 5 of its responses when we swapped the kern
 This shows us that it is important to re-benchmark a model, especially with the same set of kernels that will be used in production, to get an accurate estimate of the model's performance.
 
 Let's look at the 5 questions where the argmax answer flipped, and see how the probabilities of each of the options shifted for those questions:
-
-![Probability change on argmax-flipped MMLU-Pro questions](/assets/kernel-swapping/mmlu_pro_flipped_probs.png)
 
 We observe that for the questions corresponding to the flipped answers, the original model had two or more answer options with close probabilities, and the kernel swap caused a 2-3% shift in those probabilities, which was enough to change the argmax answer. **This highlights that using confidence-interval/margin-based token selection methods might be more robust than simple argmax selection in the presence of kernel-induced perturbations.**
 
