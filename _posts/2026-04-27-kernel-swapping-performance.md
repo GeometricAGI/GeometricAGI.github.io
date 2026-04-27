@@ -13,7 +13,9 @@ author:
 
 ## Kernel Swapping Affects Model Performance
 
-The availability of compute is a major bottleneck faced by all the AI labs/model providers today. Kernel engineering is a critical component of the model development and deployment process that tries to alleviate the affects of this bottleneck by maximizing the use of underlying GPU acclerators. We've seen a proliferation of open source kernel/inference libraries like Flash-Attention, Liger-Kernel, Flash-Linear-Attention, vLLM, and flash-infer that provide highly specialized kernels for different operations, workloads, dtypes, and hardware. 
+The availability of compute is a major bottleneck faced by all the AI labs/model providers today. Kernel engineering is a critical component of the model development and deployment process that tries to alleviate the affects of this bottleneck by maximizing the use of underlying GPU acclerators. 
+
+Consequently, we've seen a proliferation of open source kernel/inference libraries like Flash-Attention, Liger-Kernel, Flash-Linear-Attention, vLLM, and flash-infer that provide highly specialized kernels for different operations, workloads, dtypes, and hardware. 
 
 All of these libraries ensure that their kernels are correct by running unit tests that check the outputs of the kernel against a reference implementation within some tolerance (atol/rtol). However, passing these unit tests does not guarantee that the model will behave identically when using the new kernel. 
 
@@ -349,10 +351,10 @@ TEST_PROMPTS = [
 ]
 MAX_NEW_TOKENS = 40
 
-GREEN = "\033"
-BLUE  = "\033"
-BOLD  = "\033"
-RESET = "\033"
+GREEN = "\033[32m"
+BLUE  = "\033[34m"
+BOLD  = "\033[1m"
+RESET = "\033[0m"
 
 
 def greedy_generate(model, tokenizer, prompt: str, max_new_tokens: int = 40):
@@ -415,25 +417,23 @@ for d in divergence_data:
     print()
 ```
 
-```
-[transformers] The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+<pre><code>[transformers] The following generation flags are not valid and may be ignored: [&#x27;top_p&#x27;, &#x27;top_k&#x27;]. Set `TRANSFORMERS_VERBOSITY=info` for more details.
 Patched 113 RMSNorm modules
 Unpatched 113 RMSNorm modules
-Prompt   : 'The capital of France is'
-Original (unpatched): ' Paris. The capital of Italy is Rome. The capital of Spain is Madrid. The capital of China is Beijing. The capital of Japan is Tokyo. The capital of India is New Delhi. The capital'
-Swapped  (patched)  : ' Paris. The capital of Italy is Rome. The capital of Spain is Madrid. The capital of China is Beijing. The capital of Japan is Tokyo. The capital of India is New Delhi. The capital'
+Prompt   : &#x27;The capital of France is&#x27;
+Original (unpatched): &#x27; Paris. The capital of Italy is Rome. The capital of Spain is Madrid. The capital of China is Beijing. The capital of Japan is Tokyo. The capital of India is New Delhi. The capital&#x27;
+Swapped  (patched)  : &#x27; Paris. The capital of Italy is Rome. The capital of Spain is Madrid. The capital of China is Beijing. The capital of Japan is Tokyo. The capital of India is New Delhi. The capital&#x27;
 Diverges at token position: identical
 
-Prompt   : "In 1969, NASA's Apollo 11 mission successfully landed humans on"
-Original (unpatched): " the Moon. The Moon's surface is covered with a large number of craters, and the number of craters is increasing. The number of craters on the Moon is given by the function $'
-Swapped  (patched)  : " the Moon. The Moon's surface is covered with a large number of craters, and the average number of craters per square kilometer is 1.5. What is the probability that a'
+Prompt   : &quot;In 1969, NASA&#x27;s Apollo 11 mission successfully landed humans on&quot;
+Original (unpatched): &quot; the Moon. The Moon&#x27;s surface is covered with a large number of craters, and the<strong> number of craters is increasing. The number of craters on the Moon is given by the function $</strong>&#x27;
+Swapped  (patched)  : &quot; the Moon. The Moon&#x27;s surface is covered with a large number of craters, and the<strong> average number of craters per square kilometer is 1.5. What is the probability that a</strong>&#x27;
 Diverges at token position: 19
 
-Prompt   : 'The chemical symbol for gold is'
-Original (unpatched): ' Au. What is the chemical symbol for the element that has the same number of protons as the number of electrons in the neutral atom of gold?\nAnswer:\nThe chemical symbol for gold is **Au'
-Swapped  (patched)  : ' Au. What is the chemical symbol for the element that has the same number of protons as the number of electrons in a neutral atom of gold?\nAnswer:\nThe chemical symbol for gold is **Au'
-Diverges at token position: 24
-```
+Prompt   : &#x27;The chemical symbol for gold is&#x27;
+Original (unpatched): &#x27; Au. What is the chemical symbol for the element that has the same number of protons as the number of electrons in<strong> the neutral atom of gold?\nAnswer:\nThe chemical symbol for gold is **Au</strong>&#x27;
+Swapped  (patched)  : &#x27; Au. What is the chemical symbol for the element that has the same number of protons as the number of electrons in<strong> a neutral atom of gold?\nAnswer:\nThe chemical symbol for gold is **Au</strong>&#x27;
+Diverges at token position: 24</code></pre>
 
 We can see that while the output for the first prompt remains the same, the second prompt diverges at the 19th token, and the third prompt first diverges at the 5th token (the diverging subsequences are bolded). **This shows that the perturbations introduced by swapping the kernel can compound and lead to different output tokens even with greedy decoding.**
 
@@ -467,6 +467,8 @@ def compute_diff_matrix(
     return mat
 
 ```
+
+![](/assets/kernel-swapping/cell26_img1.png)
 
 We see a common pattern emerging across most of the tokens: as we go deeper into the model, starting from around the 21st layer, the MSE between the hidden states starts to accumulate and grow larger.
 
@@ -613,9 +615,9 @@ JS divergence(P_orig, P_swap) over 100 MMLU-Pro questions:
 
 ### Putting the JSD numbers in context
 
-JSD is bounded in $[0, \ln 2 \approx 0.693]$ nats. With a mean JSD of `1.07e-3`, we can conclude that **while the output distributions are very close, they are not identical.**
+JSD is bounded in $[0, \ln 2 \approx 0.693]$ nats. With a mean JSD of `1.07e-3`, we can conclude that **while the output distributions are very close, they are not identical.** Next, let's quantify how much the probability mass shifted between the original and swapped models for the answer options `A`-`J`:
 
-Next, let's quantify how much the probability mass shifted between the original and swapped models for the answer options `A`-`J`:
+![](/assets/kernel-swapping/cell36_img1.png)
 
 We see that, on average, the probability score of any given option changed by only `0.007`, i.e., `0.7%`. However, even a small shift like this can change the argmax answer if the original probabilities were close to each other, which is what results in the 5 flipped answers we see in the next section.
 
@@ -647,6 +649,8 @@ We also see that the model **flipped 5 of its responses when we swapped the kern
 This shows us that it is important to re-benchmark a model, especially with the same set of kernels that will be used in production, to get an accurate estimate of the model's performance.
 
 Let's look at the 5 questions where the argmax answer flipped, and see how the probabilities of each of the options shifted for those questions:
+
+![](/assets/kernel-swapping/cell40_img1.png)
 
 We observe that for the questions corresponding to the flipped answers, the original model had two or more answer options with close probabilities, and the kernel swap caused a 2-3% shift in those probabilities, which was enough to change the argmax answer. **This highlights that using confidence-interval/margin-based token selection methods might be more robust than simple argmax selection in the presence of kernel-induced perturbations.**
 
