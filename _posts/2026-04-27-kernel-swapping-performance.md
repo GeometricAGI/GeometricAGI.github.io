@@ -417,7 +417,7 @@ for d in divergence_data:
     print()
 ```
 
-<pre><code>[transformers] The following generation flags are not valid and may be ignored: [&#x27;top_p&#x27;, &#x27;top_k&#x27;]. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+<pre>[transformers] The following generation flags are not valid and may be ignored: [&#x27;top_p&#x27;, &#x27;top_k&#x27;]. Set `TRANSFORMERS_VERBOSITY=info` for more details.
 Patched 113 RMSNorm modules
 Unpatched 113 RMSNorm modules
 Prompt   : &#x27;The capital of France is&#x27;
@@ -426,14 +426,14 @@ Swapped  (patched)  : &#x27; Paris. The capital of Italy is Rome. The capital of
 Diverges at token position: identical
 
 Prompt   : &quot;In 1969, NASA&#x27;s Apollo 11 mission successfully landed humans on&quot;
-Original (unpatched): &quot; the Moon. The Moon&#x27;s surface is covered with a large number of craters, and the<strong> number of craters is increasing. The number of craters on the Moon is given by the function $</strong>&#x27;
-Swapped  (patched)  : &quot; the Moon. The Moon&#x27;s surface is covered with a large number of craters, and the<strong> average number of craters per square kilometer is 1.5. What is the probability that a</strong>&#x27;
+Original (unpatched): &quot; the Moon. The Moon&#x27;s surface is covered with a large number of craters, and the<strong style="font-weight:700"> number of craters is increasing. The number of craters on the Moon is given by the function $</strong>&#x27;
+Swapped  (patched)  : &quot; the Moon. The Moon&#x27;s surface is covered with a large number of craters, and the<strong style="font-weight:700"> average number of craters per square kilometer is 1.5. What is the probability that a</strong>&#x27;
 Diverges at token position: 19
 
 Prompt   : &#x27;The chemical symbol for gold is&#x27;
-Original (unpatched): &#x27; Au. What is the chemical symbol for the element that has the same number of protons as the number of electrons in<strong> the neutral atom of gold?\nAnswer:\nThe chemical symbol for gold is **Au</strong>&#x27;
-Swapped  (patched)  : &#x27; Au. What is the chemical symbol for the element that has the same number of protons as the number of electrons in<strong> a neutral atom of gold?\nAnswer:\nThe chemical symbol for gold is **Au</strong>&#x27;
-Diverges at token position: 24</code></pre>
+Original (unpatched): &#x27; Au. What is the chemical symbol for the element that has the same number of protons as the number of electrons in<strong style="font-weight:700"> the neutral atom of gold?\nAnswer:\nThe chemical symbol for gold is **Au</strong>&#x27;
+Swapped  (patched)  : &#x27; Au. What is the chemical symbol for the element that has the same number of protons as the number of electrons in<strong style="font-weight:700"> a neutral atom of gold?\nAnswer:\nThe chemical symbol for gold is **Au</strong>&#x27;
+Diverges at token position: 24</pre>
 
 We can see that while the output for the first prompt remains the same, the second prompt diverges at the 19th token, and the third prompt first diverges at the 5th token (the diverging subsequences are bolded). **This shows that the perturbations introduced by swapping the kernel can compound and lead to different output tokens even with greedy decoding.**
 
