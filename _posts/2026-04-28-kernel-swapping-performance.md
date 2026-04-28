@@ -27,6 +27,7 @@ The core issue is **error accumulation**. A Transformer is a deep composition of
 In this blog, we'll show that when the `RMSNorm` kernel implemented in the [Transformers](https://github.com/huggingface/transformers) library is replaced with the `RMSNorm` of [Liger-Kernel](https://github.com/linkedin/Liger-Kernel) in a `Qwen3-0.6B` model, there are drifts in the hidden states, probability distributions of output tokens, and a change in the model's performance on a subset of the MMLU-Pro benchmark. 
 
 _The results shown in this blog are based on running the model and kernel on an NVIDIA H100._
+_The notebook corresponding to this blog is available [here](https://github.com/GeometricAGI/blog/blob/main/kernel-swapping-performance/kernel_swapping_blog.ipynb).
 
 
 ## Setup
