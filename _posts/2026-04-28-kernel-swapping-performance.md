@@ -182,7 +182,7 @@ The synthetic test isn't representative of what the kernel sees inside the model
 To check whether the kernel actually agrees on real inputs, let's sample directly from `Qwen3-0.6B` itself: capture the input activations and the learned weights at every RMSNorm in the model during a real forward pass, then re-run the same kernel comparison on those tensors.
 
 
-<details>
+<details markdown="1">
 <summary>Show code</summary>
 
 ```python
@@ -418,22 +418,22 @@ for d in divergence_data:
     print()
 ```
 
-    Patched 113 RMSNorm modules
-    Unpatched 113 RMSNorm modules
-    Prompt   : 'The capital of France is'
-    Original (unpatched): [32m' Paris. The capital of France is also the capital of the Republic of France. The capital of France is also the capital of the European Union. The capital of France is also the capital of the United'[0m
-    Swapped  (patched)  : [34m' Paris. The capital of France is also the capital of the Republic of France. The capital of France is also the capital of the European Union. The capital of France is also the capital of the United'[0m
-    Diverges at token position: identical
-    
-    Prompt   : "In 1969, NASA's Apollo 11 mission successfully landed humans on"
-    Original (unpatched): [32m" the Moon. The Moon's surface is covered with a large number of craters, and the[1m average number of craters per square kilometer is 1.5. What is the probability that a[0m[32m'[0m
-    Swapped  (patched)  : [34m" the Moon. The Moon's surface is covered with a large number of craters, and the[1m number of craters is increasing. The number of craters on the Moon is given by the function $[0m[34m'[0m
-    Diverges at token position: 19
-    
-    Prompt   : 'The chemical symbol for gold is'
-    Original (unpatched): [32m' Au. What is the[1m name of the element with the chemical symbol Au? Also, what is the chemical symbol for the element with the chemical symbol Au? Additionally, what is the chemical symbol for the[0m[32m'[0m
-    Swapped  (patched)  : [34m' Au. What is the[1m chemical symbol for the element that has the same number of protons as the number of electrons in the neutral atom of gold?\nAnswer:\nTo find the chemical symbol for the element[0m[34m'[0m
-    Diverges at token position: 5
+<pre>Patched 113 RMSNorm modules
+Unpatched 113 RMSNorm modules
+Prompt   : &#x27;The capital of France is&#x27;
+Original (unpatched): &#x27; Paris. The capital of France is also the capital of the Republic of France. The capital of France is also the capital of the European Union. The capital of France is also the capital of the United&#x27;
+Swapped  (patched)  : &#x27; Paris. The capital of France is also the capital of the Republic of France. The capital of France is also the capital of the European Union. The capital of France is also the capital of the United&#x27;
+Diverges at token position: identical
+
+Prompt   : &quot;In 1969, NASA&#x27;s Apollo 11 mission successfully landed humans on&quot;
+Original (unpatched): &quot; the Moon. The Moon&#x27;s surface is covered with a large number of craters, and the<strong> average number of craters per square kilometer is 1.5. What is the probability that a</strong>&#x27;
+Swapped  (patched)  : &quot; the Moon. The Moon&#x27;s surface is covered with a large number of craters, and the<strong> number of craters is increasing. The number of craters on the Moon is given by the function $</strong>&#x27;
+Diverges at token position: 19
+
+Prompt   : &#x27;The chemical symbol for gold is&#x27;
+Original (unpatched): &#x27; Au. What is the<strong> name of the element with the chemical symbol Au? Also, what is the chemical symbol for the element with the chemical symbol Au? Additionally, what is the chemical symbol for the</strong>&#x27;
+Swapped  (patched)  : &#x27; Au. What is the<strong> chemical symbol for the element that has the same number of protons as the number of electrons in the neutral atom of gold?\nAnswer:\nTo find the chemical symbol for the element</strong>&#x27;
+Diverges at token position: 5</pre>
     
 
 
@@ -540,7 +540,7 @@ A sample question from MMLU-Pro looks like:
 Let's create some functions to help with extracting the probability scores for each of the options and computing the JSD between the two distributions.
 
 
-<details>
+<details markdown="1">
 <summary>Show code</summary>
 
 ```python
@@ -590,7 +590,7 @@ def letter_argmax(logits: torch.Tensor, letters: list[str]) -> tuple[str, dict[s
 </details>
 
 
-<details>
+<details markdown="1">
 <summary>Show code</summary>
 
 ```python
