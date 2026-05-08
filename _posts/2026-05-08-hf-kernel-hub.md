@@ -7,10 +7,10 @@ author:
   - name: "Fionnán Alt"
     title: "Member of Technical Staff"
     linkedin: "https://www.linkedin.com/in/fionnanalt/"
-  - name: "Jack Foxabbot"
+  - name: "Jack Foxabbott"
     title: "Member of Technical Staff"
     linkedin: "https://www.linkedin.com/in/foxabbott/"
-  - name: "Pramodith B"
+  - name: "Pramodith B (alphabetically)"
     title: "Member of Technical Staff"
     linkedin: "https://www.linkedin.com/in/pramodith/"
 ---
@@ -114,7 +114,8 @@ def torch_reverse_kl_div(
     # ``KL(target || input)``, so input=log_q, target=log_p gives
     # ``KL(student || teacher)``.
     kl = kl_div(log_q, log_p, log_target=True, reduction="none").sum(dim=-1)
-    kl = kl.mean()
+    n_valid = completions_mask.sum().to(torch.float32)
+    kl = (kl * completions_mask).sum() / n_valid
 
     return kl.to(student_logits.dtype)
 
@@ -219,27 +220,27 @@ The `_synchronize()` function just calls `torch.cuda.synchronize()` for cuda dev
 We benchmarked each of the 6 kernels against **eager** and **torch.compile** in `max-autotune-no-cudagraphs` mode, which we've found to often be the best compilation mode per our previous [blog](https://geometricagi.github.io/2026/04/16/torch-compile-mode-analysis.html). Our kernels allocate any scratch memory at compile time and all output tensors at runtime, ensuring that we include output memory allocation time in our benchmarks. We profiled our kernels on multiple shapes and report the geometric mean of speedups across these shapes. We use a beta of 0.1 for the GRPO and BNPO kernels.
 
 The `grpo` kernels were profiled on 5 shapes:
-    * (16, 1024)
-    * (32, 2048)
-    * (64, 4096)
-    * (128, 2781)
-    * (128, 8192)
+* (16, 1024)
+* (32, 2048)
+* (64, 4096)
+* (128, 2781)
+* (128, 8192)
 
 The `bnpo` kernels were profiled on 6 shapes:
-    * (16, 1024)
-    * (16, 2781)
-    * (32, 2048)
-    * (64, 4096)
-    * (128, 2781)
-    * (128, 8192)
+* (16, 1024)
+* (16, 2781)
+* (32, 2048)
+* (64, 4096)
+* (128, 2781)
+* (128, 8192)
 
 The `reverse-kl` kernels were profiled on 6 shapes, with a vocab size of 248320 (corresponding to Qwen3.5's vocab size):
-    * (1, 64)
-    * (2, 128)
-    * (4, 256)
-    * (8, 512)
-    * (8, 981)
-    * (8, 1024)
+* (1, 64)
+* (2, 128)
+* (4, 256)
+* (8, 512)
+* (8, 981)
+* (8, 1024)
 
 The geometric-mean speedups of our cute kernels over the `kernels`-library baselines are summarized below; per-shape latency plots follow each table.
 
