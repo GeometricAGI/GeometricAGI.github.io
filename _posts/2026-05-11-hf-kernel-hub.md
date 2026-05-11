@@ -2,7 +2,7 @@
 layout: post
 title: "Open-sourcing kernels on the HuggingFace Hub"
 description: "The Geometric team is open-sourcing 6 loss function kernels on the HuggingFace Hub."
-date: 2026-05-08
+date: 2026-05-11
 author:
   - name: "Fionnán Alt"
     title: "Member of Technical Staff"
@@ -303,6 +303,8 @@ Plots for the performance across the different shapes for the `beta!=0.0` case c
 ![GRPO beta!=0 — forward kernel speedup](/assets/hf-kernel-hub/grpo_loss_mask_speedup.png)
 ![GRPO beta!=0 — fused forward+backward kernel speedup](/assets/hf-kernel-hub/grpo_loss_fwd_bwd_mask_speedup.png)
 
+_Note_: Some shapes show minor regression compared to `torch.compile`.
+
 #### BNPO
 **BNPO with beta==0.0**
 
@@ -327,6 +329,8 @@ Plots for the performance across the different shapes for the `beta!=0.0` case c
 
 ![BNPO beta!=0 — forward kernel speedup](/assets/hf-kernel-hub/bnpo_loss_speedup.png)
 ![BNPO beta!=0 — fused forward+backward kernel speedup](/assets/hf-kernel-hub/bnpo_loss_fwd_bwd_speedup.png)
+
+_Note_: Some shapes show minor regression compared to `torch.compile`.
 
 #### Reverse KL
 
