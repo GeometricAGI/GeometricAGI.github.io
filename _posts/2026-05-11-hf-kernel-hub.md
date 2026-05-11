@@ -17,7 +17,7 @@ author:
 
 # Open-sourcing kernels on the HuggingFace Hub
 
-In the past few months at Geometric, we've been learning what it takes to create high-performance kernels. Today we're releasing six of these kernels on the HuggingFace Hub with a commitment to open-source more in the future. The kernel card is available [here](https://huggingface.co/Geometric-AI/geometric-ai-kernels) and can be used via HuggingFace's `kernels` library.
+We (Geometric) are focused on creating the highest-performing kernels possible. Today we're releasing six of these kernels on the HuggingFace Hub with a commitment to open-source more in the future. The kernel card is available [here](https://huggingface.co/Geometric-AI/geometric-ai-kernels) and can be used via HuggingFace's `kernels` library.
 
 ### Kernels
 
