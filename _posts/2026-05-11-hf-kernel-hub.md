@@ -248,8 +248,8 @@ The geometric-mean speedups of our cute kernels over the `kernels`-library basel
 
 | Kernel | GM Speedup vs Eager | GM Speedup vs Torch Compile (max-autotune-no-cudagraphs) |
 | --- | --- | --- |
-| grpo_loss_fwd | 5.60x | 2.52x |
-| grpo_loss | 19.92x | 2.28x |
+| grpo_loss_fwd | 5.68x | 2.45x |
+| grpo_loss | 20.79x | 1.98x |
 
 ![GRPO — vs eager (kernels-library benchmark)](/assets/hf-kernel-hub/grpo_loss_eager_dark_latency.svg)
 ![GRPO — vs torch.compile (kernels-library benchmark)](/assets/hf-kernel-hub/grpo_loss_compiled_dark_latency.svg)
@@ -258,8 +258,8 @@ The geometric-mean speedups of our cute kernels over the `kernels`-library basel
 
 | Kernel | GM Speedup vs Eager | GM Speedup vs Torch Compile (max-autotune-no-cudagraphs) |
 | --- | --- | --- |
-| bnpo_loss_fwd | 5.58x | 2.54x |
-| bnpo_loss | 17.46x | 2.15x |
+| bnpo_loss_fwd | 5.29x | 2.52x |
+| bnpo_loss | 16.81x | 2.27x |
 
 ![BNPO — vs eager (kernels-library benchmark)](/assets/hf-kernel-hub/bnpo_loss_eager_dark_latency.svg)
 ![BNPO — vs torch.compile (kernels-library benchmark)](/assets/hf-kernel-hub/bnpo_loss_compiled_dark_latency.svg)
@@ -268,8 +268,8 @@ The geometric-mean speedups of our cute kernels over the `kernels`-library basel
 
 | Kernel | GM Speedup vs Eager | GM Speedup vs Torch Compile (max-autotune-no-cudagraphs) |
 | --- | --- | --- |
-| reverse_kl_fwd | 6.95x | 2.44x |
-| reverse_kl | 7.06x | 2.59x |
+| reverse_kl_fwd | 6.88x | 2.45x |
+| reverse_kl | 7.03x | 2.61x |
 
 ![Reverse KL — vs eager (kernels-library benchmark)](/assets/hf-kernel-hub/reverse_kl_eager_dark_latency.svg)
 ![Reverse KL — vs torch.compile (kernels-library benchmark)](/assets/hf-kernel-hub/reverse_kl_compiled_dark_latency.svg)
