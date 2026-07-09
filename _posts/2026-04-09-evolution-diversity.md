@@ -1,5 +1,6 @@
 ---
 layout: post
+redirect_to: https://geometric.so/blog/evolution-diversity
 title: "Diversity Is All You Need (To Converge): Why Evolutionary Algorithms Need Diversity Management"
 description: "How diversity management determines whether evolutionary algorithms converge in polynomial or exponential time—theory, intuition, and practical implications for GPU kernel optimisation."
 date: 2026-04-09
