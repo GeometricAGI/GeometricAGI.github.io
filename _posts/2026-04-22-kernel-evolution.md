@@ -1,5 +1,6 @@
 ---
 layout: post
+redirect_to: https://geometric.so/blog/kernel-evolution
 title: "Evolving GPU Kernels with LLMs"
 description: "How evolutionary algorithms combined with large language models can automatically synthesise and optimise CUDA GPU kernels, outperforming hand-tuned baselines."
 date: 2026-04-22

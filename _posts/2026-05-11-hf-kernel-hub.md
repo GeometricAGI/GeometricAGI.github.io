@@ -1,5 +1,6 @@
 ---
 layout: post
+redirect_to: https://geometric.so/blog/hf-kernel-hub
 title: "Open-sourcing kernels on the HuggingFace Hub"
 description: "The Geometric team is open-sourcing 6 loss function kernels on the HuggingFace Hub."
 date: 2026-05-11

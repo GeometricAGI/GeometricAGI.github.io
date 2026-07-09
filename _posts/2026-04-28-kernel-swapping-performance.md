@@ -1,5 +1,6 @@
 ---
 layout: post
+redirect_to: https://geometric.so/blog/kernel-swapping-performance
 title: "Kernel Swapping Affects Model Performance"
 description: "Custom Triton kernels can pass tolerance-based unit tests yet still change a model's hidden states, output distributions, and benchmark performance. We show this end-to-end by swapping the RMSNorm kernel in Qwen3-0.6B with Liger-Kernel."
 date: 2026-04-28
