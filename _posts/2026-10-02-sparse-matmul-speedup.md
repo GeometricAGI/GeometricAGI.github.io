@@ -255,10 +255,79 @@ The tables below give the speedup for every `M` and sparsity level for each cloc
 
 Magnitude-pruning results and raw timings, SM clocks and power samples are in [the repo](https://github.com/GeometricAGI/blog/tree/main/sparse-matmul-speedup/results).
 
+### Realistic LLM shapes: DeepSeek-V4-Flash
+
+The square 8192x8192 matmul above is a clean test, but not what an inference engine runs. So we repeated the experiment with the weight shapes of [DeepSeek-V4-Flash](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash) (hidden size 4096, 64 heads of dim 512, 256 routed experts of intermediate size 2048, 6 experts per token, vocabulary 129,280) and with token counts from single-token decode up to an 8192-token prefill chunk:
+
+- `q_b_proj`: 1024 to 32768 (the query up-projection).
+- `expert_gate_up`: 4096 to 4096 (one routed expert's fused gate and up projection). With 6 of 256 experts per token, an expert sees about `tokens x 6/256` rows, so we scale the row count that way (for example 512 tokens means 12 rows).
+- `lm_head`: 4096 to 129280.
+
+Weights are stored as `(out, in)` and applied as `x @ w.t()`, as in `nn.Linear`, in bf16 (the released model uses fp8 and fp4 weights, which we did not test). Everything else is as before, with each graph rotating through enough weight copies to cover at least 512 MiB. Each GPU is run free-running and with one low locked clock, 1200 MHz on the H100 and 1000 MHz on the B200. Speedup over the dense weight for 50% and 99% random zeros:
+
+**H100**
+
+| Weight | Tokens (rows) | dense time (us) | free-running 50% | free-running 99% | locked 1200 MHz 50% | locked 1200 MHz 99% |
+|---|---|---|---|---|---|---|
+| q_b_proj (1024 to 32768) | 1 (1) | 24.4 | 0.999 | 1.003 | 0.998 | 1.008 |
+| q_b_proj (1024 to 32768) | 8 (8) | 24.9 | 0.999 | 1.002 | 0.998 | 1.008 |
+| q_b_proj (1024 to 32768) | 32 (32) | 25.7 | 0.998 | 1.003 | 0.999 | 1.009 |
+| q_b_proj (1024 to 32768) | 128 (128) | 29.7 | 1.000 | 1.003 | 0.995 | 1.007 |
+| q_b_proj (1024 to 32768) | 512 (512) | 62.2 | 1.042 | 1.166 | 1.001 | 1.007 |
+| q_b_proj (1024 to 32768) | 2048 (2048) | 220.7 | 0.991 | 1.085 | 1.001 | 1.002 |
+| q_b_proj (1024 to 32768) | 8192 (8192) | 872.0 | 1.035 | 1.146 | 1.000 | 1.000 |
+| expert_gate_up (4096 to 4096, routed) | 1 (1) | 16.0 | 1.002 | 1.002 | 1.001 | 1.017 |
+| expert_gate_up (4096 to 4096, routed) | 128 (3) | 16.0 | 1.000 | 1.000 | 1.000 | 1.016 |
+| expert_gate_up (4096 to 4096, routed) | 512 (12) | 16.2 | 1.000 | 0.999 | 1.002 | 1.010 |
+| expert_gate_up (4096 to 4096, routed) | 2048 (48) | 14.5 | 0.995 | 0.997 | 0.996 | 1.010 |
+| expert_gate_up (4096 to 4096, routed) | 8192 (192) | 16.7 | 1.007 | 1.023 | 1.001 | 1.005 |
+| lm_head (4096 to 129280) | 1 (1) | 361.0 | 1.000 | 1.003 | 0.996 | 1.004 |
+| lm_head (4096 to 129280) | 8 (8) | 364.0 | 1.002 | 1.001 | 0.997 | 1.003 |
+| lm_head (4096 to 129280) | 32 (32) | 367.0 | 1.003 | 0.998 | 1.003 | 1.002 |
+| lm_head (4096 to 129280) | 128 (128) | 378.9 | 0.998 | 1.004 | 0.999 | 0.997 |
+| lm_head (4096 to 129280) | 512 (512) | 867.5 | 1.023 | 1.129 | 1.002 | 1.003 |
+| lm_head (4096 to 129280) | 2048 (2048) | 3173.9 | 1.040 | 1.152 | 1.000 | 1.000 |
+| lm_head (4096 to 129280) | 8192 (8192) | 12636.5 | 1.023 | 1.211 | 1.000 | 1.000 |
+
+**B200**
+
+| Weight | Tokens (rows) | dense time (us) | free-running 50% | free-running 99% | locked 1000 MHz 50% | locked 1000 MHz 99% |
+|---|---|---|---|---|---|---|
+| q_b_proj (1024 to 32768) | 1 (1) | 12.4 | 0.999 | 0.949 | 1.000 | 0.947 |
+| q_b_proj (1024 to 32768) | 8 (8) | 12.5 | 1.006 | 0.944 | 1.004 | 0.949 |
+| q_b_proj (1024 to 32768) | 32 (32) | 13.2 | 1.005 | 0.950 | 1.002 | 0.951 |
+| q_b_proj (1024 to 32768) | 128 (128) | 15.8 | 1.017 | 0.975 | 1.007 | 0.981 |
+| q_b_proj (1024 to 32768) | 512 (512) | 30.8 | 1.020 | 1.087 | 0.998 | 1.006 |
+| q_b_proj (1024 to 32768) | 2048 (2048) | 101.6 | 1.038 | 1.097 | 1.002 | 1.005 |
+| q_b_proj (1024 to 32768) | 8192 (8192) | 396.1 | 1.031 | 1.094 | 1.000 | 1.000 |
+| expert_gate_up (4096 to 4096, routed) | 1 (1) | 8.6 | 1.032 | 0.995 | 1.006 | 1.011 |
+| expert_gate_up (4096 to 4096, routed) | 128 (3) | 9.1 | 1.001 | 1.001 | 1.001 | 1.007 |
+| expert_gate_up (4096 to 4096, routed) | 512 (12) | 8.8 | 1.031 | 0.998 | 1.005 | 1.014 |
+| expert_gate_up (4096 to 4096, routed) | 2048 (48) | 9.2 | 1.030 | 0.997 | 1.007 | 1.016 |
+| expert_gate_up (4096 to 4096, routed) | 8192 (192) | 12.3 | 1.020 | 1.057 | 0.995 | 0.998 |
+| lm_head (4096 to 129280) | 1 (1) | 155.7 | 1.000 | 1.003 | 0.997 | 0.999 |
+| lm_head (4096 to 129280) | 8 (8) | 154.5 | 1.000 | 1.004 | 1.000 | 1.001 |
+| lm_head (4096 to 129280) | 32 (32) | 162.7 | 1.004 | 1.004 | 1.001 | 1.002 |
+| lm_head (4096 to 129280) | 128 (128) | 198.8 | 1.025 | 1.060 | 0.996 | 0.998 |
+| lm_head (4096 to 129280) | 512 (512) | 402.9 | 1.036 | 1.094 | 1.000 | 1.001 |
+| lm_head (4096 to 129280) | 2048 (2048) | 1453.4 | 1.032 | 1.092 | 1.000 | 1.000 |
+| lm_head (4096 to 129280) | 8192 (8192) | 5766.3 | 1.044 | 1.106 | 1.000 | 1.000 |
+
+![H100, DeepSeek-V4-Flash shapes, free-running clocks](/assets/sparse-matmul-speedup/h100-dsv4-flash-unlocked.png)
+
+![B200, DeepSeek-V4-Flash shapes, free-running clocks](/assets/sparse-matmul-speedup/b200-dsv4-flash-unlocked.png)
+
+- **Decode batches (up to 128 tokens): no effect on the H100.** These matmuls are limited by reading the weights from memory and run at the full clock, so the zeros change nothing (within 1%).
+- **Prefill-sized batches: the effect is as large as for the square case, or larger.** `lm_head` with 8192 tokens is up to **1.21x faster on the H100** at 99% zeros and 1.11x on the B200; `q_b_proj` is up to 1.17x and 1.10x. These are the shapes where the dense matmul runs at the power limit and throttles to 1335-1440 MHz.
+- **Routed experts barely benefit.** With only up to 192 rows per expert the matmul is short and mostly memory-bound, and the speedup is at most 2% on the H100 and 6% on the B200, and not monotonic in sparsity on the B200.
+- **Locking the clock again removes the compute-bound speedup:** at 1200 MHz (H100) and 1000 MHz (B200) the `q_b_proj` and `lm_head` prefill speedups drop to within 0.7% of 1.0.
+- **A B200 surprise we cannot explain.** `q_b_proj` at decode sizes (1 to 128 tokens) is 3-6% *slower* with 90-99% zeros, both free-running and at the locked 1000 MHz clock, so this is not a power or clock effect. It does not appear on the H100, and we have not found the cause.
+- A few small residuals (about 1-1.7%) remain for the routed-expert shape at the locked clocks, comparable to the run-to-run noise.
+
 ### What this means
 
 - **It is a power effect, not a compute effect.** The kernel does the same work. It only runs faster when the GPU is power-limited and the zeros let it hold a higher clock; at a clock the GPU can sustain, the time is identical.
 - **Benchmark with care.** If you compare kernels or models and one of them runs on weights with many zeros (pruned, quantized, or just initialized differently), part of the gap can be the power cap rather than the kernel. Lock clocks to a value below the power-limited clock, or at least log SM clock and power next to your timings.
 - **Don't count on it.** The effect is small, only shows up for compute-bound shapes at power-limited clocks, and is smaller than the noise at the sparsity levels that are common in practice.
 
-Limitations: one weight shape (8192x8192), bf16 only, one GPU of each type, and power readings from NVML are sampled, not integrated. A natural follow-up is to compare against a genuine sparse kernel path such as cuSPARSELt, and to repeat this for fp8.
+Limitations: bf16 only, random Gaussian weights rather than trained ones, only three DeepSeek-V4-Flash weight shapes, one GPU of each type, and power readings from NVML are sampled, not integrated. A natural follow-up is to compare against a genuine sparse kernel path such as cuSPARSELt, and to repeat this for fp8.
