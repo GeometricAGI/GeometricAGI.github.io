@@ -317,11 +317,11 @@ Weights are stored as `(out, in)` and applied as `x @ w.t()`, as in `nn.Linear`,
 
 ![B200, DeepSeek-V4-Flash shapes, free-running clocks](/assets/sparse-matmul-speedup/b200-dsv4-flash-unlocked.png)
 
-- **Decode batches (up to 128 tokens): no effect on the H100.** These matmuls are limited by reading the weights from memory and run at the full clock, so the zeros change nothing (within 1%).
+- **Decode batches (up to 128 tokens): no effect on the H100.** These matmuls are limited by reading the weights from memory and run at the full clock, so the zeros change nothing (within about 1%).
 - **Prefill-sized batches: the effect is as large as for the square case, or larger.** `lm_head` with 8192 tokens is up to **1.21x faster on the H100** at 99% zeros and 1.11x on the B200; `q_b_proj` is up to 1.17x and 1.10x. These are the shapes where the dense matmul runs at the power limit and throttles to 1335-1440 MHz.
 - **Routed experts barely benefit.** With only up to 192 rows per expert the matmul is short and mostly memory-bound, and the speedup is at most 2% on the H100 and 6% on the B200, and not monotonic in sparsity on the B200.
-- **Locking the clock again removes the compute-bound speedup:** at 1200 MHz (H100) and 1000 MHz (B200) the `q_b_proj` and `lm_head` prefill speedups drop to within 0.7% of 1.0.
-- **A B200 surprise we cannot explain.** `q_b_proj` at decode sizes (1 to 128 tokens) is 3-6% *slower* with 90-99% zeros, both free-running and at the locked 1000 MHz clock, so this is not a power or clock effect. It does not appear on the H100, and we have not found the cause.
+- **Locking the clock again removes the compute-bound speedup:** at 1200 MHz (H100) and 1000 MHz (B200) the `q_b_proj` and `lm_head` prefill speedups drop to within 1% of 1.0.
+- **A B200 surprise we cannot explain.** `q_b_proj` at decode sizes (1 to 128 tokens) is 2-6% *slower* with 90-99% zeros, both free-running and at the locked 1000 MHz clock, so this is not a power or clock effect. It does not appear on the H100, and we have not found the cause.
 - A few small residuals (about 1-1.7%) remain for the routed-expert shape at the locked clocks, comparable to the run-to-run noise.
 
 ### What this means
