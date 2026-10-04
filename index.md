@@ -2,6 +2,7 @@ Evolutionary algorithms for optimised CUDA kernels.
 
 ## Posts
 
+- [Dense Matmuls are faster when the inputs are sparse]({% post_url 2026-10-02-sparse-matmul-speedup %})
 - [Kernel Swapping Affects Model Performance]({% post_url 2026-04-28-kernel-swapping-performance %})
 - [Evolving GPU Kernels with LLMs]({% post_url 2026-04-22-kernel-evolution %})
 - [Diversity Is All You Need (To Converge): Why Evolutionary Algorithms Need Diversity Management]({% post_url 2026-04-09-evolution-diversity %})
