@@ -60,7 +60,8 @@ The clock and power samples show where the speedup comes from. Dense and 99%-zer
 
 #### Full results: every M and sparsity level, free-running clocks
 
-<details><summary>H100, free-running</summary>
+<details markdown="1">
+<summary>H100, free-running</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -72,7 +73,8 @@ The clock and power samples show where the speedup comes from. Dense and 99%-zer
 
 </details>
 
-<details><summary>B200, free-running</summary>
+<details markdown="1">
+<summary>B200, free-running</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -137,7 +139,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 #### Full results: every M and sparsity level, locked clocks
 
-<details><summary>H100, 1000 MHz</summary>
+<details markdown="1">
+<summary>H100, 1000 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -149,7 +152,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>H100, 1200 MHz</summary>
+<details markdown="1">
+<summary>H100, 1200 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -161,7 +165,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>H100, 1400 MHz</summary>
+<details markdown="1">
+<summary>H100, 1400 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -173,7 +178,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>H100, 1600 MHz</summary>
+<details markdown="1">
+<summary>H100, 1600 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -185,7 +191,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>H100, 1800 MHz</summary>
+<details markdown="1">
+<summary>H100, 1800 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -197,7 +204,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>H100, 1980 MHz</summary>
+<details markdown="1">
+<summary>H100, 1980 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -209,7 +217,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>B200, 1000 MHz</summary>
+<details markdown="1">
+<summary>B200, 1000 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -221,7 +230,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>B200, 1200 MHz</summary>
+<details markdown="1">
+<summary>B200, 1200 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -233,7 +243,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>B200, 1400 MHz</summary>
+<details markdown="1">
+<summary>B200, 1400 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -245,7 +256,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>B200, 1600 MHz</summary>
+<details markdown="1">
+<summary>B200, 1600 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -257,7 +269,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>B200, 1800 MHz</summary>
+<details markdown="1">
+<summary>B200, 1800 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
@@ -269,7 +282,8 @@ Speedup with 99% zeros for each locked SM clock (the first row is the free-runni
 
 </details>
 
-<details><summary>B200, 1965 MHz</summary>
+<details markdown="1">
+<summary>B200, 1965 MHz</summary>
 
 | M | 5% | 10% | 25% | 50% | 70% | 90% | 99% |
 |---|---|---|---|---|---|---|---|
