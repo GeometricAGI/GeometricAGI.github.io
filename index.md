@@ -2,7 +2,7 @@ Evolutionary algorithms for optimised CUDA kernels.
 
 ## Posts
 
-- [SOLExecbench: Hacking your way to the Speed of Light]({% post_url 2026-10-05-solexecbench-exploit %})
+- [Sol-Shock: Hacking your way to the Speed of Light on Solexecbench]({% post_url 2026-10-05-solexecbench-exploit %})
 - [Dense Matmuls are faster when the inputs are sparse]({% post_url 2026-10-02-sparse-matmul-speedup %})
 - [Kernel Swapping Affects Model Performance]({% post_url 2026-04-28-kernel-swapping-performance %})
 - [Evolving GPU Kernels with LLMs]({% post_url 2026-04-22-kernel-evolution %})
