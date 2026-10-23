@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+<title id="title">Attention through progressive lowering</title><desc id="desc">Attention is represented as a tensor graph, a loop over key tiles with persistent state, distributed score fragments and row collectives, and PTX or SASS target instructions. Each level exposes distinct design choices. This is a design perspective, not a claim that a complete pipeline is implemented or verified.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9caa94"/></marker><marker id="active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#284b3a"/></marker></defs>
+<rect width="1400" height="820" fill="#f9faf5"/><g font-family="DejaVu Sans, sans-serif">
+<text x="40" y="43" font-size="14" fill="#626d64" font-weight="600" text-anchor="start">GROWING LANGUAGES  /  03</text>
+<text x="40" y="88" font-size="31" fill="#202c25" font-weight="600" text-anchor="start">Attention through progressive lowering</text>
+<text x="40" y="127" font-size="19" fill="#626d64" font-weight="400" text-anchor="start">Preserve the structure needed for the next decision; introduce implementation detail progressively.</text>
+<text x="50" y="177" font-size="13" fill="#626d64" font-weight="600" text-anchor="start">LEVEL</text>
+<text x="285" y="177" font-size="13" fill="#626d64" font-weight="600" text-anchor="start">REPRESENTATION</text>
+<text x="1000" y="177" font-size="13" fill="#626d64" font-weight="600" text-anchor="start">OPTIMIZATION DECISIONS</text>
+<text x="50" y="241" font-size="21" fill="#202c25" font-weight="600" text-anchor="start">Tensor graph</text>
+<rect x="280" y="195" width="665" height="105" rx="14" fill="#edf1e6" stroke="#bdcbb5" stroke-width="1.5"/>
+<text x="612" y="238" font-size="23" fill="#284b3a" font-weight="600" text-anchor="middle">QKᵀ → row softmax → PV</text>
+<text x="612" y="273" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Contractions, mask, normalization axis</text>
+<text x="1000" y="237" font-size="20" fill="#202c25" font-weight="600" text-anchor="start">Which operations to fuse?</text>
+<text x="1000" y="272" font-size="16" fill="#626d64" font-weight="400" text-anchor="start">Fusion must preserve dependencies.</text>
+<text x="50" y="401" font-size="21" fill="#202c25" font-weight="600" text-anchor="start">Tile program</text>
+<rect x="280" y="355" width="665" height="105" rx="14" fill="#edf1e6" stroke="#bdcbb5" stroke-width="1.5"/>
+<text x="612" y="398" font-size="23" fill="#284b3a" font-weight="600" text-anchor="middle">Key-block loop + state (m, l, u)</text>
+<text x="612" y="433" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Tile shapes, live state, data movement</text>
+<text x="1000" y="397" font-size="20" fill="#202c25" font-weight="600" text-anchor="start">Which block dimensions?</text>
+<text x="1000" y="432" font-size="16" fill="#626d64" font-weight="400" text-anchor="start">Balance storage, reuse, and parallelism.</text>
+<text x="50" y="561" font-size="21" fill="#202c25" font-weight="600" text-anchor="start">Distributed tiles</text>
+<rect x="280" y="515" width="665" height="105" rx="14" fill="#edf1e6" stroke="#bdcbb5" stroke-width="1.5"/>
+<text x="612" y="558" font-size="23" fill="#284b3a" font-weight="600" text-anchor="middle">Score fragments + row collectives</text>
+<text x="612" y="593" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Logical coordinates, lanes, ownership</text>
+<text x="1000" y="557" font-size="20" fill="#202c25" font-weight="600" text-anchor="start">Shuffle or shared memory?</text>
+<text x="1000" y="592" font-size="16" fill="#626d64" font-weight="400" text-anchor="start">Respect each row’s contributing lanes.</text>
+<text x="50" y="721" font-size="21" fill="#202c25" font-weight="600" text-anchor="start">PTX → SASS</text>
+<rect x="280" y="675" width="665" height="105" rx="14" fill="#edf1e6" stroke="#bdcbb5" stroke-width="1.5"/>
+<text x="612" y="718" font-size="23" fill="#284b3a" font-weight="600" text-anchor="middle">Matrix, arithmetic, transfer, sync</text>
+<text x="612" y="753" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Target operations and resource use</text>
+<text x="1000" y="717" font-size="20" fill="#202c25" font-weight="600" text-anchor="start">Which instructions and schedule?</text>
+<text x="1000" y="752" font-size="16" fill="#626d64" font-weight="400" text-anchor="start">Evaluate overlap and register pressure.</text>
+<path d="M 612 310 V 344" fill="none" stroke="#9caa94" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="637" y="334" font-size="16" fill="#955035" font-weight="400" text-anchor="start">tile + fuse</text>
+<path d="M 612 470 V 504" fill="none" stroke="#9caa94" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="637" y="494" font-size="16" fill="#955035" font-weight="400" text-anchor="start">map rows to lanes</text>
+<path d="M 612 630 V 664" fill="none" stroke="#9caa94" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="637" y="654" font-size="16" fill="#955035" font-weight="400" text-anchor="start">select target operations</text>
+</g></svg>

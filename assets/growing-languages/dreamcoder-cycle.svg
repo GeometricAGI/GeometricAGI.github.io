@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="540" viewBox="0 0 1400 540" role="img" aria-labelledby="title desc">
+<title id="title">DreamCoder’s wake–sleep cycle</title><desc id="desc">Conceptual summary of DreamCoder: task solving supplies programs for abstraction learning and replay; the learned library supplies sampled programs for search-policy training. The resulting vocabulary and guidance are reused in later task solving.</desc>
+<defs><marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9caa94"/></marker><marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#284b3a"/></marker><marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#955035"/></marker></defs>
+<rect width="1400" height="540" fill="#f9faf5"/><g font-family="DejaVu Sans, sans-serif">
+<text x="40" y="43" font-size="14" fill="#626d64" text-anchor="start" font-weight="600">GROWING LANGUAGES  /  01</text>
+<text x="40" y="87" font-size="30" fill="#202c25" text-anchor="start" font-weight="600">DreamCoder’s wake–sleep cycle</text>
+<text x="40" y="122" font-size="19" fill="#626d64" text-anchor="start" font-weight="400">DreamCoder alternates program synthesis, abstraction learning, and search-policy training.</text>
+<rect x="60" y="195" width="300" height="155" rx="16" fill="#edf1e6" stroke="#bdcbb5" stroke-width="1.5"/>
+<text x="80" y="228" font-size="13" fill="#284b3a" text-anchor="start" font-weight="600">WAKE</text>
+<text x="80" y="267" font-size="22" fill="#202c25" text-anchor="start" font-weight="600">Solve tasks</text>
+<text x="80" y="301" font-size="17" fill="#626d64" text-anchor="start" font-weight="400">Use the current vocabulary</text>
+<text x="80" y="326" font-size="17" fill="#626d64" text-anchor="start" font-weight="400">and search policy</text>
+<rect x="550" y="195" width="300" height="155" rx="16" fill="#edf1e6" stroke="#bdcbb5" stroke-width="1.5"/>
+<text x="570" y="228" font-size="13" fill="#284b3a" text-anchor="start" font-weight="600">ABSTRACTION SLEEP</text>
+<text x="570" y="267" font-size="22" fill="#202c25" text-anchor="start" font-weight="600">Learn components</text>
+<text x="570" y="301" font-size="17" fill="#626d64" text-anchor="start" font-weight="400">Consolidate reusable structure</text>
+<text x="570" y="326" font-size="17" fill="#626d64" text-anchor="start" font-weight="400">from solved programs</text>
+<rect x="1040" y="195" width="300" height="155" rx="16" fill="#edf1e6" stroke="#bdcbb5" stroke-width="1.5"/>
+<text x="1060" y="228" font-size="13" fill="#284b3a" text-anchor="start" font-weight="600">DREAM SLEEP</text>
+<text x="1060" y="267" font-size="22" fill="#202c25" text-anchor="start" font-weight="600">Learn search guidance</text>
+<text x="1060" y="301" font-size="17" fill="#626d64" text-anchor="start" font-weight="400">Train on solved tasks</text>
+<text x="1060" y="326" font-size="17" fill="#626d64" text-anchor="start" font-weight="400">and sampled programs</text>
+<path d="M 372 275 H 537" fill="none" stroke="#284b3a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-purple)"/>
+<text x="455" y="255" font-size="17" fill="#626d64" text-anchor="middle" font-weight="400">solutions</text>
+<path d="M 862 275 H 1027" fill="none" stroke="#284b3a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-purple)"/>
+<text x="945" y="245" font-size="17" fill="#626d64" text-anchor="middle" font-weight="400">sampled</text>
+<text x="945" y="268" font-size="17" fill="#626d64" text-anchor="middle" font-weight="400">programs</text>
+<path d="M 210 195 V 157 H 1190 V 183" fill="none" stroke="#9caa94" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-gray)" stroke-dasharray="7 6"/>
+<text x="700" y="149" font-size="15" fill="#626d64" text-anchor="middle" font-weight="400">replay solved tasks</text>
+<path d="M 700 350 V 419 H 210 V 363" fill="none" stroke="#955035" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-green)"/>
+<text x="465" y="403" font-size="19" fill="#955035" text-anchor="middle" font-weight="400">updated vocabulary</text>
+<path d="M 1190 350 V 494 H 30 V 275 H 47" fill="none" stroke="#955035" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow-green)"/>
+<text x="740" y="478" font-size="19" fill="#955035" text-anchor="middle" font-weight="400">updated search guidance</text>
+</g></svg>

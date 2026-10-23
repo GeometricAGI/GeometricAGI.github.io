@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="730" viewBox="0 0 1200 730" role="img" aria-labelledby="title desc">
+<title id="title">An agentic loop for language design</title><desc id="desc">Agents use a current language to optimize solutions, inspect results, revise operations and models, and evaluate those changes with proof obligations, experiments, and later tasks.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9caa94"/></marker></defs>
+<g font-family="DejaVu Sans, sans-serif">
+<rect width="1200" height="730" fill="#f9faf5"/>
+<text x="40" y="45" font-size="14" fill="#626d64" font-weight="600" text-anchor="start">GROWING LANGUAGES  /  07</text>
+<text x="40" y="91" font-size="31" fill="#202c25" font-weight="600" text-anchor="start">An agentic loop for language design</text>
+<text x="40" y="127" font-size="18" fill="#626d64" font-weight="400" text-anchor="start">Agents use task outcomes to revise and test the language.</text>
+<rect x="385" y="173" width="430" height="109" rx="18" fill="#edf1e6" stroke="#bdcbb5" stroke-width="1.5"/>
+<text x="600" y="210" font-size="23" fill="#284b3a" font-weight="600" text-anchor="middle">Current language</text>
+<text x="600" y="245" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Operations, types, models, and proof obligations</text>
+<rect x="805" y="340" width="350" height="127" rx="18" fill="#ffffff" stroke="#d8ddd0" stroke-width="1.5"/>
+<text x="980" y="377" font-size="23" fill="#202c25" font-weight="600" text-anchor="middle">Agent research</text>
+<text x="980" y="412" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Inspect results and identify gaps.</text>
+<text x="980" y="438" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Revise and implement changes.</text>
+<rect x="385" y="533" width="430" height="109" rx="18" fill="#f4e9df" stroke="#d4bfae" stroke-width="1.5"/>
+<text x="600" y="570" font-size="23" fill="#955035" font-weight="600" text-anchor="middle">Optimize + evaluate</text>
+<text x="600" y="605" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Build candidates; check behavior and cost</text>
+<rect x="45" y="340" width="350" height="127" rx="18" fill="#edf1e6" stroke="#bdcbb5" stroke-width="1.5"/>
+<text x="220" y="377" font-size="23" fill="#284b3a" font-weight="600" text-anchor="middle">Assess + retain</text>
+<text x="220" y="412" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Test value on later tasks.</text>
+<text x="220" y="438" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Keep useful revisions and conditions.</text>
+<path d="M 824 227 H 980 V 329" fill="none" stroke="#9caa94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 980 477 V 587 H 827" fill="none" stroke="#9caa94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 373 587 H 220 V 479" fill="none" stroke="#9caa94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M 220 329 V 227 H 373" fill="none" stroke="#9caa94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="600" y="379" font-size="21" fill="#202c25" font-weight="500" text-anchor="middle">Preserve requirements.</text>
+<text x="600" y="413" font-size="21" fill="#202c25" font-weight="500" text-anchor="middle">Measure cumulative effort.</text>
+<text x="600" y="448" font-size="17" fill="#626d64" font-weight="400" text-anchor="middle">Agents revise their means of search.</text>
+<text x="600" y="693" font-size="18" fill="#626d64" font-weight="400" text-anchor="middle">Evaluate the language changes and their cost on subsequent tasks.</text>
+</g></svg>
