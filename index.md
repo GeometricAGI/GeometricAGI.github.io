@@ -2,6 +2,7 @@ Evolutionary algorithms for optimised CUDA kernels.
 
 ## Posts
 
+- [Growing Languages for Self-Improving Agents]({% post_url 2026-10-23-growing-languages-for-self-improving-agents %})
 - [Sol-Shock: Hacking your way to the Speed of Light on Solexecbench]({% post_url 2026-10-05-solexecbench-exploit %})
 - [Dense Matmuls are faster when the inputs are sparse]({% post_url 2026-10-02-sparse-matmul-speedup %})
 - [Kernel Swapping Affects Model Performance]({% post_url 2026-04-28-kernel-swapping-performance %})
