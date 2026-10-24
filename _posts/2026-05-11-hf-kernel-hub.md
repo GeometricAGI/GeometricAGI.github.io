@@ -4,9 +4,6 @@ title: "Open-sourcing kernels on the HuggingFace Hub"
 description: "The Geometric team is open-sourcing 6 loss function kernels on the HuggingFace Hub."
 date: 2026-05-11
 author:
-  - name: "Fionnán Alt"
-    title: "Member of Technical Staff"
-    linkedin: "https://www.linkedin.com/in/fionnanalt/"
   - name: "Jack Foxabbott"
     title: "Member of Technical Staff"
     linkedin: "https://www.linkedin.com/in/foxabbott/"
